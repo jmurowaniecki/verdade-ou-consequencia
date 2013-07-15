@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Verdade ou consequência</title>
+	<style type="text/css">
+	#roda {
+		height:500px;
+		width:500px;
+		border-radius:250px;
+		border:1px solid green;
+
+		-webkit-transition: all 10s ease;
+		-moz-transition: all 10s ease;
+		-ms-transition: all 10s ease;
+		-o-transition: all 10s ease;
+		transition: all 10s ease;
+
+	}
+	#pergunta, #responde {
+		position:absolute;
+		left:200px;
+		width:100px;
+		height:100px;
+		border-radius:50px;
+		color:white;
+		text-align:center;
+	}
+	#pergunta {
+		background:blue;
+		top:0;
+	}
+	#responde {
+		background:red;
+		bottom:0;
+		-webkit-transform:rotate(180deg);
+	}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="roda" onclick="rodaaroda()">
+			<div id="pergunta">pergunta</div>
+			<div id="responde">responde</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="src/audio5.js"></script>
+	<script type="text/javascript">
+		var roda = document.getElementById('roda'), container = document.getElementById('container');
+		container.style.position = 'absolute';
+		container.style.left = (screen.width / 2 - 250) + 'px';
+
+		var audio5js = {
+			media: ['peao-da-casa-propria-01.mp3'],
+			engine: new Audio5js({
+					swf_path: 'swf/audio5js.swf',
+					ready: function (e) {
+						this.on('ended', function () {
+							// audio5js.engine.play();
+							audio5js.playing = false;
+						});
+					}
+				}),
+			loop: false,
+			duration: 0,
+			playing: false,
+			play: function (media) {
+				if (this.media[media] === this.playing)
+				{
+					return false;
+				}
+				if (this.playing) {
+					this.engine.pause();
+					this.playing = false;
+					return setTimeout(function () {
+						return audio5js.play(media);
+					}, 1000);
+				}
+				this.playing = this.media[media];
+				this.engine.load(this.playing);
+				this.engine.play();
+			}
+		};
+
+		function rodaaroda(rand) {
+			if (rand === undefined) {
+				for (var t = 0; t < 10; t++) rand = Math.floor(Math.random() * 360 * 3.141516) + 1200;
+				audio5js.play(0);
+			}
+			console.log(rand);
+			roda.style.webkitTransform = 'rotate(' + rand + 'deg)';
+		}
+		rodaaroda(0);
+		</script>
+</body>
+</html>
