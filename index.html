@@ -4,12 +4,11 @@
 <head>
 	<title>Verdade ou consequência</title>
 	<style type="text/css">
-	#roda {
+	.roda {
 		height:500px;
 		width:500px;
 		border-radius:250px;
 		border:1px solid green;
-
 		-webkit-transition: all 10s ease;
 		-moz-transition: all 10s ease;
 		-ms-transition: all 10s ease;
@@ -17,7 +16,7 @@
 		transition: all 10s ease;
 
 	}
-	#pergunta, #responde {
+	.pergunta, .responde {
 		position:absolute;
 		left:200px;
 		width:100px;
@@ -26,11 +25,11 @@
 		color:white;
 		text-align:center;
 	}
-	#pergunta {
+	.pergunta {
 		background:blue;
 		top:0;
 	}
-	#responde {
+	.responde {
 		background:red;
 		bottom:0;
 		-webkit-transform:rotate(180deg);
@@ -38,10 +37,10 @@
 	</style>
 </head>
 <body>
-	<div id="container">
-		<div id="roda" onclick="rodaaroda()">
-			<div id="pergunta">pergunta</div>
-			<div id="responde">responde</div>
+	<div id="container" class="container">
+		<div id="roda" class="roda" onclick="rodaaroda()">
+			<div id="pergunta" class="pergunta">pergunta</div>
+			<div id="responde" class="responde">responde</div>
 		</div>
 	</div>
 
@@ -84,8 +83,31 @@
 		};
 
 		function rodaaroda(rand) {
+			var roda		= document.getElementById('roda'),
+				pergunta	= document.getElementById('pergunta'),
+				responde	= document.getElementById('responde'),
+				clone		= roda.cloneNode(),
+				element_p	= pergunta.cloneNode(),
+				element_r	= responde.cloneNode();
+
+			element_r.removeAttribute('id');
+			element_r.style.border = '1px solid red';
+			element_r.style.background = 'transparent';
+
+			element_p.removeAttribute('id');
+			element_p.style.border = '1px solid blue';
+			element_p.style.background = 'transparent';
+
+			clone.removeAttribute('id');
+			clone.style.position = 'absolute';
+			clone.style.top = '0';
+
+			clone.appendChild(element_p);
+			clone.appendChild(element_r);
+			container.appendChild(clone);
+
 			if (rand === undefined) {
-				for (var t = 0; t < 10; t++) rand = Math.floor(Math.random() * 360 * 3.141516) + 1200;
+				for (var t = 0; t < 10; t++) rand = Math.floor(Math.random() * 3600);
 				audio5js.play(0);
 			}
 			console.log(rand);
